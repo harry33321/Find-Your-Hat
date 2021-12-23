@@ -14,6 +14,7 @@ class Field {
   }
 
   playGame() {
+    this.createChar()
     let mode = prompt('Which mode? ');
     mode == "hard" ? this.hardMode = true : console.log('Easy mode on');
     while (this.playing) {
@@ -26,6 +27,18 @@ class Field {
   printMap() {
     for (let i = 0; i < this.fieldArray.length; i++)
       console.log(this.fieldArray[i].join(''));
+  }
+
+  createChar() {
+    let hatY = Math.floor(Math.random() * this.fieldArray.length);
+    let hatX = Math.floor(Math.random() * this.fieldArray[hatY].length);
+    this.fieldArray[hatY][hatX] = this.hat;
+
+    let pathY = Math.floor(Math.random() * this.fieldArray.length);
+    let pathX = Math.floor(Math.random() * this.fieldArray[pathY].length);
+    this.x = pathX;
+    this.y = pathY;
+    this.fieldArray[pathY][pathX] = this.pathCharacter;
   }
 
   move() {
@@ -55,6 +68,10 @@ class Field {
   hardMove() {
     let randomYIndex = Math.floor(Math.random() * this.fieldArray.length);
     let randomXIndex = Math.floor(Math.random() * this.fieldArray[randomYIndex].length);
+    while (this.fieldArray[randomYIndex][randomXIndex] == this.hat || this.fieldArray[randomYIndex][randomXIndex] == this.hole) {
+      randomYIndex = Math.floor(Math.random() * this.fieldArray.length);
+      randomXIndex = Math.floor(Math.random() * this.fieldArray[randomYIndex].length);
+    }
     this.fieldArray[randomYIndex][randomXIndex] = this.hole;
   }
 
@@ -82,33 +99,23 @@ class Field {
           this.fieldArray[i][j] = this.hole;
       }
     }
-    let hatX = Math.floor(Math.random() * x);
-    let hatY = Math.floor(Math.random() * y);
-    this.fieldArray[hatY][hatX] = this.hat;
-    
-    let pathX = Math.floor(Math.random() * x);
-    let pathY = Math.floor(Math.random() * y);
-    this.x = pathX;
-    this.y = pathY;
-    this.fieldArray[pathY][pathX] = this.pathCharacter;
-    // generateField(x, y, percentage) {
-    //   const mapObject = [this.hole, this.fieldCharacter];
-    //   let checkMap = 0;
-    //   while (checkMap < y) {
-    //     let randomXField = [];
-    //     for (let j = 0; j < x; j++) {
-    //       let randomObject = mapObject[Math.floor(Math.random() * mapObject.length)];
-    //       randomXField.push(randomObject);
-    //     }
-    //     const checkArray = randomXField.filter(el => el === this.fieldCharacter);
-    //     if (checkArray.length / randomXField.length >= percentage) {
-    //       this.fieldArray.push(randomXField);
-    //       checkMap++;
-    //     }
-    //   }
-    //   this.fieldArray[0][0] = this.pathCharacter;
-    //   this.fieldArray[y - 2][x - 2] = this.hat;
   }
+  //   generateField(x, y, percentage) {
+  //     const mapObject = [this.hole, this.fieldCharacter];
+  //     let checkMap = 0;
+  //     while (checkMap < y) {
+  //       let randomXField = [];
+  //       for (let j = 0; j < x; j++) {
+  //         let randomObject = mapObject[Math.floor(Math.random() * mapObject.length)];
+  //         randomXField.push(randomObject);
+  //       }
+  //       const checkArray = randomXField.filter(el => el === this.fieldCharacter);
+  //       if (checkArray.length / randomXField.length >= percentage) {
+  //         this.fieldArray.push(randomXField);
+  //         checkMap++;
+  //       }
+  //     }
+  // }
 }
 
 const myField = new Field();
