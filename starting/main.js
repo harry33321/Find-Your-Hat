@@ -11,22 +11,14 @@ class Field {
     this.playing = true
     this.x = 0
     this.y = 0
-    this.hardMode = true
+    this.hardMode = false
   }
 
   playGame() {
     let mode = prompt('Which mode? ');
-    switch (mode) {
-      case "hard":
-        this.hardMode = true
-        break
-      case "easy":
-        this.hardMode = false
-        break
-    }
+    mode == "hard" ? this.hardMode = true : console.log('Easy mode on');
     while (this.playing) {
       this.printMap();
-      this.hardMove();
       this.move();
       this.checkWinLoss();
     }
@@ -56,7 +48,7 @@ class Field {
         console.log("Wrong Input, end the game!")
         this.playing = false
     }
-    if (this.hardMode) {
+    if (this.hardMode == true) {
       this.hardMove()
     }
   }
