@@ -4,196 +4,120 @@ const hat = '^';
 const hole = 'O';
 const fieldCharacter = '░';
 const pathCharacter = '*';
-let playing = true
-let x = 0
-let y = 0
 
 class Field {
   constructor() {
     this.fieldArray = []
-    // this.playing = true
+    this.playing = true
+    this.x = 0
+    this.y = 0
+    this.hardMode = true
   }
 
-  print() {
+  playGame() {
+    let mode = prompt('Which mode? ');
+    switch (mode) {
+      case "hard":
+        this.hardMode = true
+        break
+      case "easy":
+        this.hardMode = false
+        break
+    }
+    while (this.playing) {
+      this.printMap();
+      this.hardMove();
+      this.move();
+      this.checkWinLoss();
+    }
+  }
+
+  printMap() {
     for (let i = 0; i < this.fieldArray.length; i++)
       console.log(this.fieldArray[i].join(''))
   }
 
+  move() {
+    let way = prompt('Which way? ');
+    switch (way) {
+      case "w":
+        this.y -= 1
+        break
+      case "s":
+        this.y += 1
+        break
+      case "a":
+        this.x -= 1
+        break
+      case "d":
+        this.x += 1
+        break
+      default:
+        console.log("Wrong Input, end the game!")
+        this.playing = false
+    }
+    if (this.hardMode) {
+      this.hardMove()
+    }
+  }
+
+  hardMove() {
+    let randomYIndex = Math.floor(Math.random() * this.fieldArray.length)
+    let randomXIndex = Math.floor(Math.random() * this.fieldArray[randomYIndex].length)
+    this.fieldArray[randomYIndex][randomXIndex] = hole
+  }
+
   checkWinLoss() {
-    if (myField.fieldArray[y][x] == hole) {
+    if (this.y < 0 || this.x < 0 || this.y >= this.fieldArray.length || this.x >= this.fieldArray[this.y].length) {
+      console.log(`Out of bounds instruction`);
+      this.playing = false
+    } else if (this.fieldArray[this.y][this.x] == hole) {
       console.log(`Sorry, you fell down a hole`);
       this.playing = false
-    } else if (myField.fieldArray[y][x] == hat) {
+    } else if (this.fieldArray[this.y][this.x] == hat) {
       console.log(`Congrats, you found your hat`);
       this.playing = false
-    } else if (myField.fieldArray[y][x] == fieldCharacter) {
-      myField.fieldArray[y][x] = pathCharacter
+    } else if (this.fieldArray[this.y][this.x] == fieldCharacter) {
+      this.fieldArray[this.y][this.x] = pathCharacter
     }
   }
 
-  // playGame() {
-  //   while (this.playing) {
-  //     this.print()
-  //     let way = prompt('Which way? ');
-  //     try {
-  //       if (way == "U") {
-  //         y -= 1
-  //         if (myField.fieldArray[y][x] == hole) {
-  //           console.log(`Sorry, you fell down a hole`);
-  //           this.playing = false
-  //         } else if (myField.fieldArray[y][x] == hat) {
-  //           console.log(`Congrats, you found your hat`);
-  //           this.playing = false
-  //         } else if (myField.fieldArray[y][x] == fieldCharacter) {
-  //           myField.fieldArray[y][x] = pathCharacter
-  //         } else {
-  //           console.log(`Out of bounds instruction`);
-  //           this.playing = false
-  //         }
-  //       } else if (way == "D") {
-  //         y += 1
-  //         if (myField.fieldArray[y][x] == hole) {
-  //           console.log(`Sorry, you fell down a hole`);
-  //           this.playing = false
-  //         } else if (myField.fieldArray[y][x] == hat) {
-  //           console.log(`Congrats, you found your hat`);
-  //           this.playing = false
-  //         } else if (myField.fieldArray[y][x] == fieldCharacter) {
-  //           myField.fieldArray[y][x] = pathCharacter
-  //         } else {
-  //           console.log(`Out of bounds instruction`);
-  //           this.playing = false
-  //         }
-  //       } else if (way == "L") {
-  //         x -= 1
-  //         if (myField.fieldArray[y][x] == hole) {
-  //           console.log(`Sorry, you fell down a hole`);
-  //           this.playing = false
-  //         } else if (myField.fieldArray[y][x] == hat) {
-  //           console.log(`Congrats, you found your hat`);
-  //           this.playing = false
-  //         } else if (myField.fieldArray[y][x] == fieldCharacter) {
-  //           myField.fieldArray[y][x] = pathCharacter
-  //         } else {
-  //           console.log(`Out of bounds instruction`);
-  //           this.playing = false
-  //         }
-  //       } else if (way == "R"){
-  //         x += 1
-  //         if (myField.fieldArray[y][x] == hole) {
-  //           console.log(`Sorry, you fell down a hole`);
-  //           this.playing = false
-  //         } else if (myField.fieldArray[y][x] == hat) {
-  //           console.log(`Congrats, you found your hat`);
-  //           this.playing = false
-  //         } else if (myField.fieldArray[y][x] == fieldCharacter) {
-  //           myField.fieldArray[y][x] = pathCharacter
-  //         } else {
-  //           console.log(`Out of bounds instruction`);
-  //           this.playing = false
-  //         }
-  //       } else {
-  //         console.log(`Wrong input, exit the game.`)
-  //         this.playing = false
-  //       }
-  //     } catch(e) {
-  //       console.log(`Out of bounds instruction`);
-  //       this.playing = false
-  //     }
-  //   }
-  // }
-
-  generateField(x, y) {
-    const mapObject = [hole, fieldCharacter]
-    let checkMap = 0
-    let randomField = []
-    while (checkMap < y) {
-      let randomXField = []
+  generateField(x, y, percentage) {
+    this.fieldArray = new Array(y).fill(0).map(i => new Array(x))
+    for (let i = 0; i < y; i++) {
       for (let j = 0; j < x; j++) {
-        let randomObject = mapObject[Math.floor(Math.random() * mapObject.length)]
-        randomXField.push(randomObject)
-      }
-      const checkArray = randomXField.filter(el => el === fieldCharacter);
-      if (checkArray.length / randomXField.length >= 0.7) {
-        this.fieldArray.push(randomXField)
-        checkMap++
+        percentage > Math.random() ?
+          this.fieldArray[i][j] = fieldCharacter :
+          this.fieldArray[i][j] = hole
       }
     }
-    this.fieldArray[0][0] = pathCharacter
+    let a = Math.floor(Math.random() * x)
+    let b = Math.floor(Math.random() * y)
+    this.x = a
+    this.y = b
+    this.fieldArray[b][a] = pathCharacter
     this.fieldArray[y - 2][x - 2] = hat
-  }
-}
-
-const myField = new Field();
-myField.generateField(10, 5)
-// myField.playGame()
-
-while (playing) {
-  myField.print()
-  let way = prompt('Which way? ');
-  try {
-    if (way == "U") {
-      y -= 1
-      if (myField.fieldArray[y][x] == hole) {
-        console.log(`Sorry, you fell down a hole`);
-        playing = false
-      } else if (myField.fieldArray[y][x] == hat) {
-        console.log(`Congrats, you found your hat`);
-        playing = false
-      } else if (myField.fieldArray[y][x] == fieldCharacter) {
-        myField.fieldArray[y][x] = pathCharacter
-      } else {
-        console.log(`Out of bounds instruction`);
-        playing = false
-      }
-    } else if (way == "D") {
-      y += 1
-      if (myField.fieldArray[y][x] == hole) {
-        console.log(`Sorry, you fell down a hole`);
-        playing = false
-      } else if (myField.fieldArray[y][x] == hat) {
-        console.log(`Congrats, you found your hat`);
-        playing = false
-      } else if (myField.fieldArray[y][x] == fieldCharacter) {
-        myField.fieldArray[y][x] = pathCharacter
-      } else {
-        console.log(`Out of bounds instruction`);
-        playing = false
-      }
-    } else if (way == "L") {
-      x -= 1
-      if (myField.fieldArray[y][x] == hole) {
-        console.log(`Sorry, you fell down a hole`);
-        playing = false
-      } else if (myField.fieldArray[y][x] == hat) {
-        console.log(`Congrats, you found your hat`);
-        playing = false
-      } else if (myField.fieldArray[y][x] == fieldCharacter) {
-        myField.fieldArray[y][x] = pathCharacter
-      } else {
-        console.log(`Out of bounds instruction`);
-        playing = false
-      }
-    } else if (way == "R") {
-      x += 1
-      if (myField.fieldArray[y][x] == hole) {
-        console.log(`Sorry, you fell down a hole`);
-        playing = false
-      } else if (myField.fieldArray[y][x] == hat) {
-        console.log(`Congrats, you found your hat`);
-        playing = false
-      } else if (myField.fieldArray[y][x] == fieldCharacter) {
-        myField.fieldArray[y][x] = pathCharacter
-      } else {
-        console.log(`Out of bounds instruction`);
-        playing = false
-      }
-    } else {
-      console.log(`Wrong input, exit the game.`)
-      playing = false
+    // generateField(x, y, percentage) {
+    //   const mapObject = [hole, fieldCharacter]
+    //   let checkMap = 0
+    //   while (checkMap < y) {
+    //     let randomXField = []
+    //     for (let j = 0; j < x; j++) {
+    //       let randomObject = mapObject[Math.floor(Math.random() * mapObject.length)]
+    //       randomXField.push(randomObject)
+    //     }
+    //     const checkArray = randomXField.filter(el => el === fieldCharacter);
+    //     if (checkArray.length / randomXField.length >= percentage) {
+    //       this.fieldArray.push(randomXField)
+    //       checkMap++
+    //     }
+    //   }
+    //   this.fieldArray[0][0] = pathCharacter
+    //   this.fieldArray[y - 2][x - 2] = hat
     }
-  } catch (e) {
-    console.log(`Out of bounds instruction`);
-    playing = false
   }
-}
+
+  // const myField = new Field(Field.generateField(6, 4, 0.8));
+  const myField = new Field();
+  myField.generateField(6, 4, 0.8)
+  myField.playGame()
