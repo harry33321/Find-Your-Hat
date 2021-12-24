@@ -1,1 +1,4 @@
 node_modules
+node_modules/ansi-regex
+node_modules/prompt-sync
+node_modules/strip-ansi
