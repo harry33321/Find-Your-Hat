@@ -56,17 +56,17 @@ header {
 }
 
 .hole {
-    background-image: url(/img/hole.png);
+    background-image: url(./img/hole.png);
 }
 
 .hat {
-    background-image: url(/img/hat.png);
+    background-image: url(./img/hat.png);
 }
 
 .foot {
-    background-image: url(/img/foot.png) !important;
+    background-image: url(./img/foot.png) !important;
 }
 
 .player {
-    background-image: url(/img/player.png) !important;
+    background-image: url(./img/player.png) !important;
 }
