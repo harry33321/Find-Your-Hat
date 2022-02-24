@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script defer src="/index.js"></script>
+    <title>Find Your Hat</title>
+</head>
+
+<body>
+    <header>
+        <h1>Find Your Hat</h1>
+    </header>
+    <div id="gameRules">
+        <h2>遊戲規則：</h2>
+        <ol>
+            <li>透過鍵盤 ↑ ↓ ← → 引導角色移動，找到帽子即勝出！</li>
+            <li>落入洞穴裡 或 跑出場外，即失敗，遊戲結束！</li>
+        </ol>
+    </div>
+    <div id="gameRolesImg">
+        <img src="/img/player.png" alt="player">
+        <img src="/img/hat.png" alt="hat">
+        <img src="/img/hole.png" alt="hole">
+    </div>
+    <div id="gameRoles">
+        <h3>角色</h3>
+        <h3>帽子</h3>
+        <h3>洞穴</h3>
+    </div>
+    <button id="startBtn">Game Start</button>
+
+    <div id="gameMap" class="hide"></div>
+</body>
+
+</html>

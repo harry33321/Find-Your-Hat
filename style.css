@@ -1,0 +1,72 @@
+* {
+    font-family: 'Nunito Sans';
+}
+
+.hide {
+    display: none !important;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+}
+
+#gameRules {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+#gameRolesImg {
+    display: flex;
+    justify-content: center;
+}
+
+#gameRolesImg img {
+    margin: 0 3.4rem;
+    width: 24px;
+    height: 24px;
+}
+
+#gameRoles {
+    display: flex;
+    justify-content: center;
+}
+
+#gameRoles h3 {
+    margin: 0 3rem;
+}
+
+#startBtn {
+    display: flex;
+    margin: 1rem auto;
+}
+
+#gameMap {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 1rem auto;
+    border: 2px solid; 
+}
+
+#gameMap div {
+    box-sizing: border-box;
+    width: 24px;
+    height: 24px;
+}
+
+.hole {
+    background-image: url(/img/hole.png);
+}
+
+.hat {
+    background-image: url(/img/hat.png);
+}
+
+.foot {
+    background-image: url(/img/foot.png) !important;
+}
+
+.player {
+    background-image: url(/img/player.png) !important;
+}

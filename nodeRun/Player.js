@@ -1,6 +1,7 @@
 const prompt = require('prompt-sync')({ sigint: true });
 
 module.exports = class {
+    
     constructor(x, y, field) {
         this.x = x;
         this.y = y;
