@@ -46,13 +46,39 @@ const startGame = () => {
     const player = document.querySelector(`#grid-${randomPlayer}`);
     player.classList.add('player');
 
-    const checkWinLoss = (playerLocation) => {
-        if (playerLocation.classList.contains('hat')) {
+    let leftBorderArr = [];
+    const getLeftBorder = () => {
+        let leftBorder = 0;
+        for (let i = 0; i < mapHeight; i++) {
+            leftBorderArr.push(leftBorder);
+            leftBorder += parseInt(mapWidth);
+        }
+    }
+    getLeftBorder();
+
+    let rightBorderArr = [];
+    const getRightBorder = () => {
+        let rightBorder = mapWidth - 1;
+        for (let i = 0; i < mapHeight; i++) {
+            rightBorderArr.push(rightBorder);
+            rightBorder += parseInt(mapWidth);
+        }
+    }
+    getRightBorder();
+
+    const checkWinLoss = (newPlayerLocationId) => {
+        const newPlayerLocation = document.querySelector(`#grid-${newPlayerLocationId}`);
+        if (!newPlayerLocation) {
+            alert('You out of bounds!');
+            location.reload();
+        } else if (newPlayerLocation.classList.contains('hat')) {
             alert('You Win!');
             location.reload();
-        } else if (playerLocation.classList.contains('hole')) {
+        } else if (newPlayerLocation.classList.contains('hole')) {
             alert('You Lose!');
             location.reload();
+        } else {
+            newPlayerLocation.classList.add('player');
         }
     }
 
@@ -66,30 +92,32 @@ const startGame = () => {
             playerLocation.classList.remove('player');
             playerLocation.classList.add('foot');
             const newPlayerLocationId = parseInt(playerLocationId) - parseInt(mapWidth);
-            const newPlayerLocation = document.querySelector(`#grid-${newPlayerLocationId}`);
-            newPlayerLocation.classList.add('player');
-            checkWinLoss(newPlayerLocation);
+            checkWinLoss(newPlayerLocationId);
         } else if (move === "ArrowDown") {
             playerLocation.classList.remove('player');
             playerLocation.classList.add('foot');
             const newPlayerLocationId = parseInt(playerLocationId) + parseInt(mapWidth);
-            const newPlayerLocation = document.querySelector(`#grid-${newPlayerLocationId}`);
-            newPlayerLocation.classList.add('player');
-            checkWinLoss(newPlayerLocation);
+            checkWinLoss(newPlayerLocationId);
         } else if (move === "ArrowLeft") {
-            playerLocation.classList.remove('player');
-            playerLocation.classList.add('foot');
-            const newPlayerLocationId = parseInt(playerLocationId) - 1;
-            const newPlayerLocation = document.querySelector(`#grid-${newPlayerLocationId}`);
-            newPlayerLocation.classList.add('player');
-            checkWinLoss(newPlayerLocation);
+            if (leftBorderArr.includes(parseInt(playerLocationId))) {
+                alert('You out of bounds!');
+                location.reload();
+            } else {
+                playerLocation.classList.remove('player');
+                playerLocation.classList.add('foot');
+                const newPlayerLocationId = parseInt(playerLocationId) - 1;
+                checkWinLoss(newPlayerLocationId);
+            }
         } else if (move === "ArrowRight") {
-            playerLocation.classList.remove('player');
-            playerLocation.classList.add('foot');
-            const newPlayerLocationId = parseInt(playerLocationId) + 1;
-            const newPlayerLocation = document.querySelector(`#grid-${newPlayerLocationId}`);
-            newPlayerLocation.classList.add('player');
-            checkWinLoss(newPlayerLocation);
+            if (rightBorderArr.includes(parseInt(playerLocationId))) {
+                alert('You out of bounds!');
+                location.reload();
+            } else {
+                playerLocation.classList.remove('player');
+                playerLocation.classList.add('foot');
+                const newPlayerLocationId = parseInt(playerLocationId) + 1;
+                checkWinLoss(newPlayerLocationId);
+            }
         }
     });
 }
